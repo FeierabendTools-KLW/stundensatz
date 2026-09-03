@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Angebot schreiben als Selbstständiger: Pflichtangaben, Aufbau und Summen-Rechner</title>
+<meta name="description" content="Was gehört in ein Angebot? Checkliste mit allen Angaben, Erklärung zu Bindefrist, Kleinunternehmer und Kostenvoranschlag — plus kostenloser Rechner für Rabatt, Umsatzsteuer und Anzahlung.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://feierabendtools-klw.github.io/stundensatz/angebot-schreiben.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angebot schreiben als Selbstständiger: Checkliste und Rechner">
+<meta property="og:description" content="Die elf Angaben, die in jedes Angebot gehören — und der Absatz, der die meisten Nachforderungen verhindert.">
+<meta property="og:locale" content="de_DE">
+<meta name="twitter:card" content="summary">
+<style>
+  /* Bewusst ohne externe Schriften: Google Fonts uebertraegt beim Laden die
+     IP-Adresse der Besucher in die USA. Systemschriften sehen fast identisch aus. */
+  :root{
+    --bg:#f4f6f5; --surface:#ffffff; --raised:#eef3f1;
+    --ink:#101a17; --muted:#5c6d68; --line:#dde5e2;
+    --accent:#0e7c66; --accent-dark:#0a5c4c; --accent-soft:#e4f2ee;
+    --radius:14px; --shadow:0 1px 2px rgba(16,32,28,.05), 0 10px 28px -16px rgba(16,32,28,.28);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.62 var(--sans);
+    padding:0 18px 60px;-webkit-text-size-adjust:100%}
+  .wrap{max-width:720px;margin:0 auto}
+
+  header.hero{padding:48px 0 26px}
+  .kicker{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-soft);padding:5px 11px;border-radius:999px;margin-bottom:14px}
+  h1{font-size:clamp(28px,6.4vw,42px);line-height:1.1;letter-spacing:-.03em;margin:0 0 12px;text-wrap:balance}
+  .lede{font-size:18px;color:var(--muted);margin:0;max-width:60ch}
+
+  h2{font-size:clamp(21px,4vw,27px);line-height:1.2;letter-spacing:-.02em;margin:44px 0 10px;text-wrap:balance}
+  h3{font-size:18px;margin:26px 0 6px;letter-spacing:-.01em}
+  p{margin:0 0 14px}
+  section > p:last-child{margin-bottom:0}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+  .rate{border:1px solid var(--accent);background:var(--accent-soft);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .rate .k{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--accent)}
+  .rate .big{font-size:clamp(28px,7vw,34px);font-weight:700;letter-spacing:-.03em;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .rate .s{font-size:13px;color:var(--muted)}
+
+  .field{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px dashed var(--line)}
+  .field:last-of-type{border-bottom:0}
+  .field label{flex:1;font-size:15px}
+  .field .h{display:block;color:var(--muted);font-size:12.5px;line-height:1.45;margin-top:2px}
+  .iw{display:flex;align-items:center;gap:6px}
+  .iw span{color:var(--muted);font-size:13px;width:24px}
+  input[type=number]{width:104px;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;
+    color:var(--ink);font:inherit;font-variant-numeric:tabular-nums;text-align:right}
+  select{padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);font:inherit}
+  input[type=number]:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+  input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  input[type=number]{-moz-appearance:textfield}
+  .pos{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line)}
+  .pos .nm{font-size:14.5px;color:var(--muted)}
+  .out{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line);
+    font-variant-numeric:tabular-nums}
+  .out:last-child{border-bottom:0}
+  .out.total{font-weight:700;font-size:17px}
+  .assump{font-size:12.5px;color:var(--muted);margin:12px 0 0}
+
+  /* ---------- Checkliste ---------- */
+  .progress{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+  .progress .n{font-size:26px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--accent)}
+  .progress .t{font-size:14px;color:var(--muted)}
+  .bar{height:7px;border-radius:99px;background:var(--line);overflow:hidden;margin-bottom:16px}
+  .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .18s ease}
+  .chk{display:flex;gap:11px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed var(--line);cursor:pointer}
+  .chk:last-child{border-bottom:0}
+  .chk input{margin:3px 0 0;width:18px;height:18px;accent-color:var(--accent);flex:none;cursor:pointer}
+  .chk b{display:block;font-size:15px;font-weight:600}
+  .chk span{display:block;color:var(--muted);font-size:12.5px;line-height:1.45;margin-top:1px}
+  .chk .must{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-soft);border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+
+  /* ---------- CTA ---------- */
+  .cta{background:var(--surface);border:1px solid var(--accent);border-radius:var(--radius);padding:22px;margin:30px 0}
+  .cta.soft{border-color:var(--line);background:var(--raised)}
+  .cta h3{margin:0 0 8px;font-size:20px}
+  .cta p{margin:0 0 14px;color:var(--muted)}
+  .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;
+    padding:12px 20px;border-radius:10px}
+  .btn:hover{background:var(--accent-dark)}
+  .btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+  .btn.ghost:hover{background:var(--accent-soft)}
+  .btnrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .price{font-size:13.5px;color:var(--muted)}
+
+  ol.steps{margin:0;padding-left:0;list-style:none;counter-reset:s}
+  ol.steps li{counter-increment:s;position:relative;padding-left:38px;margin:0 0 14px}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:8px;
+    background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:700;display:flex;
+    align-items:center;justify-content:center}
+  .quote{border-left:3px solid var(--accent);background:var(--surface);border-radius:0 11px 11px 0;
+    padding:14px 16px;margin:16px 0;font-size:15px}
+  .quote em{color:var(--muted);font-style:normal;display:block;font-size:12.5px;margin-top:8px}
+  details{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;margin-bottom:10px}
+  details summary{font-weight:600;cursor:pointer;list-style:none}
+  details summary::-webkit-details-marker{display:none}
+  details summary::before{content:"+ ";color:var(--accent);font-weight:700}
+  details[open] summary::before{content:"– "}
+  details p{margin:10px 0 0;color:var(--muted)}
+
+  .crumb{font-size:13.5px;color:var(--muted);padding-top:22px}
+  .crumb a{color:var(--accent)}
+  footer.site{margin-top:52px;border-top:1px solid var(--line);padding-top:18px;font-size:13.5px;color:var(--muted)}
+  footer.site a{color:var(--accent)}
+  footer.site nav{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <p class="crumb"><a href="index.html">Stundensatz-Rechner</a> &rsaquo; Angebot schreiben</p>
+
+  <header class="hero">
+    <span class="kicker">Kostenlose Checkliste</span>
+    <h1>Angebot schreiben</h1>
+    <p class="lede">Ein Angebot ist kein Preiszettel, sondern der Vertrag, den dein Kunde unterschreibt. Was hineingehört, was du weglassen darfst — und der eine Absatz, der die meisten Nachforderungen verhindert.</p>
+  </header>
+
+  <!-- ================= CHECKLISTE ================= -->
+  <div class="card">
+    <div class="progress">
+      <span class="n" id="pN">0/11</span>
+      <span class="t" id="pT">Hak ab, was dein Angebot schon enthält.</span>
+    </div>
+    <div class="bar"><i id="pBar"></i></div>
+
+    <label class="chk"><input type="checkbox">
+      <span><b>Deine vollständigen Daten<span class="must">wichtig</span></b>
+      <span>Name beziehungsweise Firmierung, Anschrift, Telefon und E-Mail. Bei eingetragenen Unternehmen zusätzlich Rechtsform und Registernummer.</span></span></label>
+
+    <label class="chk"><input type="checkbox">
+      <span><b>Vollständige Daten des Kunden<span class="must">wichtig</span></b>
+      <span>Firma, Ansprechpartner, Anschrift. Bei Firmenkunden die exakte Firmierung — nicht die Kurzform aus der E-Mail-Signatur.</span></span></label>
+
+    <label class="chk"><input type="checkbox">
+      <span><b>Angebotsnummer und Datum<span class="must">wichtig</span></b>
+      <span>Die Nummer ist deine Referenz für Nachfragen, Auftragsbestätigung und spätere Rechnung. Lückenlos fortlaufend muss nur die Rechnungsnummer sein.</span></span></label>
+
+    <label class="chk"><input type="checkbox">
+      <span><b>Leistungsbeschreibung, konkret<span class="must">wichtig</span></b>
+      <span>„Website erstellen" ist keine Beschreibung. Umfang, Anzahl, Format, Zwischenschritte — je genauer hier, desto weniger Diskussion später.</span></span></label>
+
+    <label class="chk"><input type="checkbox">
+      <span><b>Einzelpreise, nicht nur die Summe</b>
+      <span>Positionen mit Menge und Einzelpreis. Das macht Kürzungen verhandelbar, ohne dass du am Gesamtpreis nachlässt.</span></span></label>
+
+    <label class="chk"><input type="checkbox">
+      <span><b>Umsatzsteuer korrekt ausgewiesen<span class="must">wichtig</span></b>
+      <span>Netto, Steuersatz, Steuerbetrag, Brutto. Als Kleinunternehmer nach § 19 UStG weist du keine Umsatzsteuer aus und schreibst stattdessen einen Hinweis darauf ins Angebot.</span></span></label>
+
+    <label class="chk"><input type="checkbox">
+      <span><b>Was <em>nicht</em> enthalten ist<span class="must">wichtig</span></b>
+      <span>Der wertvollste Absatz im ganzen Dokument. Siehe unten.</span></span></label>
+
+    <label class="chk"><input type="checkbox">
+      <span><b>Liefer- oder Ausführungszeitraum</b>
+      <span>Am besten als Zeitraum ab Auftragserteilung („4 Wochen ab Freigabe"), nicht als festes Datum — sonst läuft deine Frist, während der Kunde noch überlegt.</span></span></label>
+
+    <label class="chk"><input type="checkbox">
+      <span><b>Zahlungsbedingungen</b>
+      <span>Zahlungsziel, gegebenenfalls Anzahlung oder Teilzahlungen. Bei größeren Projekten ist eine Anzahlung der beste Schutz vor Zahlungsausfall.</span></span></label>
+
+    <label class="chk"><input type="checkbox">
+      <span><b>Bindefrist</b>
+      <span>Wie lange gilt dein Preis? Ohne Frist bist du grundsätzlich länger gebunden, als dir lieb ist. Zwei bis vier Wochen sind üblich.</span></span></label>
+
+    <label class="chk"><input type="checkbox">
+      <span><b>Mitwirkung des Kunden</b>
+      <span>Was brauchst du von ihm, und bis wann? Texte, Zugänge, Freigaben, Ansprechpartner. Ohne diesen Punkt verschiebt sich dein Termin und es sieht aus, als wärst du zu spät.</span></span></label>
+  </div>
+
+  <!-- ================= CTA 1 ================= -->
+  <div class="cta soft">
+    <h3>Angebote nicht nur prüfen, sondern erstellen</h3>
+    <p>Der Angebots-Generator baut aus deinen Positionen ein fertiges, druckbares Angebot — mit Rabatt, Umsatzsteuer, Anzahlung, Textbausteinen und Auftragsbestätigung. Eine Datei, offline, ohne Abo.</p>
+    <div class="btnrow">
+      <a class="btn ghost" href="https://kaixd6.gumroad.com/l/angebots-generator">Angebots-Generator, 24 €</a>
+      <span class="price">Einmalig, kein Abo.</span>
+    </div>
+  </div>
+
+  <!-- ================= INHALT ================= -->
+  <section>
+    <h2>Der Absatz, der die meisten Nachforderungen verhindert</h2>
+    <p>Streit über Angebote entsteht selten am Preis. Er entsteht an dem, was beide Seiten stillschweigend angenommen haben — und zwar unterschiedlich.</p>
+    <p>Der Kunde liest „Website erstellen" und denkt, die Texte schreibst du. Du liest denselben Satz und denkst, die Texte kommen von ihm. Beide haben recht, und beide sind sauer. Die Lösung kostet drei Zeilen:</p>
+    <div class="quote">
+      Nicht enthalten sind: Texterstellung, Bildmaterial und Lizenzen, laufende Wartung nach Übergabe sowie Änderungen nach der Freigabe. Diese Leistungen können separat beauftragt werden.
+      <em>Ein Block wie dieser gehört in jedes Angebot. Er wirkt unangenehm beim Schreiben und angenehm beim Abrechnen.</em>
+    </div>
+    <p>Der Punkt ist nicht, den Kunden zu bremsen. Der Punkt ist, dass zusätzliche Wünsche ab jetzt sichtbar zusätzlich sind — statt als Selbstverständlichkeit in deiner unbezahlten Zeit zu landen.</p>
+
+    <h2>Angebot, Kostenvoranschlag, Auftragsbestätigung</h2>
+    <p>Drei Dokumente, die im Alltag oft verwechselt werden, aber unterschiedlich wirken:</p>
+    <ol class="steps">
+      <li><strong>Das Angebot</strong> nennt einen verbindlichen Preis für eine beschriebene Leistung. Nimmt der Kunde es innerhalb der Bindefrist an, ist der Vertrag geschlossen — zu genau diesen Konditionen.</li>
+      <li><strong>Der Kostenvoranschlag</strong> ist eine fachmännische Schätzung, kein Festpreis. Er darf sich im Rahmen bewegen, aber eine wesentliche Überschreitung musst du dem Kunden unverzüglich mitteilen; er darf dann aussteigen. Sinnvoll, wenn der Aufwand vorher ehrlich nicht feststeht.</li>
+      <li><strong>Die Auftragsbestätigung</strong> schreibst du, nachdem der Kunde zugesagt hat. Sie hält schriftlich fest, was jetzt gilt — besonders wichtig, wenn die Zusage nur per Telefon oder in einer knappen Mail kam.</li>
+    </ol>
+    <p>Wer keinen Festpreis nennen will, ohne einen Kostenvoranschlag zu machen, arbeitet nach Aufwand: Stundensatz plus geschätzter Rahmen plus die Zusage, vor Überschreitung Bescheid zu geben.</p>
+
+    <h2>Was das Angebot <em>nicht</em> sein muss</h2>
+    <p>Ein Angebot ist keine Rechnung. Die strengen Pflichtangaben für Rechnungen — Steuernummer oder Umsatzsteuer-Identifikationsnummer, fortlaufende Rechnungsnummer, Leistungszeitpunkt — gelten für das Angebot nicht.</p>
+    <p>Das entlastet gerade am Anfang: Für ein sauberes Angebot brauchst du keine Steuernummer im Dokument. Sobald daraus eine Rechnung wird, gelten andere Regeln — dann gehören die Pflichtangaben hinein.</p>
+
+    <h2>Summen richtig rechnen</h2>
+    <p>Rabatt vor Steuer, Anzahlung vom Bruttobetrag, und der Restbetrag als eigene Zeile. Klingt banal, wird aber regelmäßig falsch gerechnet — meistens zum eigenen Nachteil.</p>
+
+    <div class="calcbox">
+      <div class="rate">
+        <div class="k">Gesamtbetrag (brutto)</div>
+        <div class="big" id="rBrutto">–</div>
+        <div class="s" id="rHint">Drei Beispielpositionen — ändere die Zahlen.</div>
+      </div>
+
+      <div class="card">
+        <div class="pos"><span class="nm">Position 1</span>
+          <div class="iw"><input type="number" id="m1" value="1" min="0" step="0.5"><span>×</span></div>
+          <div class="iw"><input type="number" id="p1" value="1200" min="0" step="10"><span>€</span></div></div>
+        <div class="pos"><span class="nm">Position 2</span>
+          <div class="iw"><input type="number" id="m2" value="3" min="0" step="0.5"><span>×</span></div>
+          <div class="iw"><input type="number" id="p2" value="180" min="0" step="10"><span>€</span></div></div>
+        <div class="pos"><span class="nm">Position 3</span>
+          <div class="iw"><input type="number" id="m3" value="0" min="0" step="0.5"><span>×</span></div>
+          <div class="iw"><input type="number" id="p3" value="0" min="0" step="10"><span>€</span></div></div>
+
+        <div class="field"><label for="rabatt">Rabatt auf die Nettosumme</label>
+          <div class="iw"><input type="number" id="rabatt" value="0" min="0" max="100" step="1"><span>%</span></div></div>
+        <div class="field"><label for="ust">Umsatzsteuer</label>
+          <div class="iw"><select id="ust">
+            <option value="19">19 % Regelsatz</option>
+            <option value="7">7 % ermäßigt</option>
+            <option value="0">0 % Kleinunternehmer § 19 UStG</option>
+          </select></div></div>
+        <div class="field"><label for="anz">Anzahlung bei Auftragserteilung</label>
+          <div class="iw"><input type="number" id="anz" value="30" min="0" max="100" step="5"><span>%</span></div></div>
+
+        <div style="margin-top:14px">
+          <div class="out"><span>Zwischensumme netto</span><span id="oZwi">–</span></div>
+          <div class="out"><span>Rabatt</span><span id="oRab">–</span></div>
+          <div class="out"><span>Nettobetrag</span><span id="oNet">–</span></div>
+          <div class="out"><span>Umsatzsteuer</span><span id="oUst">–</span></div>
+          <div class="out total"><span>Gesamtbetrag brutto</span><span id="oBru">–</span></div>
+          <div class="out"><span>Anzahlung bei Auftragserteilung</span><span id="oAnz">–</span></div>
+          <div class="out"><span>Restbetrag nach Abnahme</span><span id="oRest">–</span></div>
+        </div>
+        <p class="assump">Rechnet ausschließlich in deinem Browser. Keine Eingabe wird gespeichert oder übertragen.</p>
+      </div>
+    </div>
+
+    <h2>Häufige Fragen</h2>
+
+    <details open>
+      <summary>Was muss in ein Angebot rein?</summary>
+      <p>Deine Daten und die des Kunden, Angebotsnummer und Datum, eine konkrete Leistungsbeschreibung mit Einzelpreisen, die Umsatzsteuer beziehungsweise der Kleinunternehmer-Hinweis, der Gesamtbetrag, Liefer- oder Ausführungszeitraum, Zahlungsbedingungen und eine Bindefrist. Nicht vorgeschrieben, aber praktisch am wertvollsten: eine Liste der Leistungen, die ausdrücklich nicht enthalten sind.</p>
+    </details>
+
+    <details>
+      <summary>Wie lange ist mein Angebot gültig?</summary>
+      <p>So lange, wie du es hineinschreibst. Ohne eigene Bindefrist bleibst du länger an deinen Preis gebunden, als du vermutlich möchtest — üblich sind zwei bis vier Wochen. Wer sich gar nicht binden will, kennzeichnet das Angebot ausdrücklich als freibleibend; dann kommt der Vertrag erst mit deiner Bestätigung zustande.</p>
+    </details>
+
+    <details>
+      <summary>Muss ich als Kleinunternehmer Umsatzsteuer ausweisen?</summary>
+      <p>Nein. Wer die Kleinunternehmerregelung nach § 19 UStG nutzt, weist keine Umsatzsteuer aus und ergänzt stattdessen einen kurzen Hinweis, etwa: „Gemäß § 19 UStG wird keine Umsatzsteuer berechnet." Ein ausgewiesener Steuerbetrag ohne Berechtigung kann dazu führen, dass du ihn trotzdem abführen musst.</p>
+    </details>
+
+    <details>
+      <summary>Darf ich einen Preis später noch ändern?</summary>
+      <p>Vor der Annahme jederzeit — dann schickst du ein neues Angebot mit neuer Nummer. Nach der Annahme innerhalb der Bindefrist gilt der vereinbarte Preis. Deshalb sind der Leistungsumfang und der „nicht enthalten"-Block so wichtig: Zusätzliche Wünsche sind dann ein neuer Auftrag und keine Preiserhöhung.</p>
+    </details>
+
+    <details>
+      <summary>Angebot oder Kostenvoranschlag — was ist besser?</summary>
+      <p>Steht der Aufwand fest, ist das Angebot besser: Es gibt beiden Seiten Sicherheit und wirkt professioneller. Ist der Aufwand ehrlich nicht abschätzbar, ist ein Kostenvoranschlag oder die Abrechnung nach Aufwand fairer als ein Festpreis, den du zu hoch ansetzen musst, um dich abzusichern.</p>
+    </details>
+
+    <details>
+      <summary>Wie komme ich auf den Preis im Angebot?</summary>
+      <p>Über deinen Stundensatz, nicht über Bauchgefühl. Geschätzter Aufwand mal Zielsatz plus Risikopuffer. Wie du den Stundensatz sauber rückwärts aus deinem gewünschten Nettoeinkommen berechnest, steht auf der <a href="index.html">Seite zum Stundensatz-Rechner</a>.</p>
+    </details>
+  </section>
+
+  <!-- ================= CTA 2 ================= -->
+  <div class="cta">
+    <h3>Beides zusammen</h3>
+    <p>Der Stundensatz-Rechner sagt dir, was eine Stunde kosten muss. Der Angebots-Generator macht daraus ein fertiges Dokument, das du verschicken kannst. Im Paket zusammen günstiger als einzeln.</p>
+    <div class="btnrow">
+      <a class="btn" href="https://kaixd6.gumroad.com/l/freelancer-paket">Freelancer-Paket, 34 €</a>
+      <span class="price">Statt 43 € einzeln. Einmalig, kein Abo.</span>
+    </div>
+  </div>
+
+  <footer class="site">
+    <nav>
+      <a href="index.html">Stundensatz-Rechner</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+    </nav>
+    <p>Diese Seite fasst kaufmännische Praxis zusammen und ersetzt keine Rechts- oder Steuerberatung. Für die verbindliche Beurteilung deines Einzelfalls — besonders bei Umsatzsteuer und Vertragsgestaltung — ist die Steuerberatung oder Rechtsberatung zuständig.</p>
+  </footer>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Was muss in ein Angebot rein?","acceptedAnswer":{"@type":"Answer","text":"Deine Daten und die des Kunden, Angebotsnummer und Datum, eine konkrete Leistungsbeschreibung mit Einzelpreisen, die Umsatzsteuer beziehungsweise der Kleinunternehmer-Hinweis, der Gesamtbetrag, Liefer- oder Ausführungszeitraum, Zahlungsbedingungen und eine Bindefrist. Dazu eine Liste der Leistungen, die ausdrücklich nicht enthalten sind."}},
+    {"@type":"Question","name":"Wie lange ist mein Angebot gültig?","acceptedAnswer":{"@type":"Answer","text":"So lange, wie die Bindefrist im Angebot es vorgibt. Üblich sind zwei bis vier Wochen. Ohne eigene Frist bleibt man länger gebunden. Wer sich nicht binden will, kennzeichnet das Angebot als freibleibend."}},
+    {"@type":"Question","name":"Muss ich als Kleinunternehmer Umsatzsteuer ausweisen?","acceptedAnswer":{"@type":"Answer","text":"Nein. Wer die Kleinunternehmerregelung nach Paragraf 19 UStG nutzt, weist keine Umsatzsteuer aus und ergaenzt stattdessen einen Hinweis darauf im Angebot."}},
+    {"@type":"Question","name":"Angebot oder Kostenvoranschlag?","acceptedAnswer":{"@type":"Answer","text":"Steht der Aufwand fest, ist das Angebot mit Festpreis besser. Ist der Aufwand nicht abschaetzbar, ist ein Kostenvoranschlag oder die Abrechnung nach Aufwand fairer."}}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var ids=['m1','p1','m2','p2','m3','p3','rabatt','anz'];
+  function v(id){var e=document.getElementById(id);var n=parseFloat(e.value);return isFinite(n)?n:0;}
+  function eur(n){return n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';}
+  function set(id,t){document.getElementById(id).textContent=t;}
+
+  function calc(){
+    var zwi = v('m1')*v('p1') + v('m2')*v('p2') + v('m3')*v('p3');
+    var rq  = Math.min(100,Math.max(0,v('rabatt')))/100;
+    var rab = zwi*rq;
+    var net = zwi-rab;
+    var us  = parseFloat(document.getElementById('ust').value)||0;
+    var ust = net*us/100;
+    var bru = net+ust;
+    var aq  = Math.min(100,Math.max(0,v('anz')))/100;
+    var anz = bru*aq;
+
+    set('rBrutto', eur(bru));
+    set('oZwi', eur(zwi));
+    set('oRab', rab>0 ? '– '+eur(rab) : eur(0));
+    set('oNet', eur(net));
+    set('oUst', us===0 ? 'keine (§ 19 UStG)' : eur(ust)+'  ('+us+' %)');
+    set('oBru', eur(bru));
+    set('oAnz', eur(anz));
+    set('oRest', eur(bru-anz));
+    set('rHint', us===0
+      ? 'Ohne Umsatzsteuer — Hinweis auf § 19 UStG nicht vergessen.'
+      : 'Enthält '+us+' % Umsatzsteuer.');
+  }
+
+  ids.forEach(function(id){
+    var e=document.getElementById(id);
+    e.addEventListener('input',calc);
+    e.addEventListener('change',calc);
+  });
+  document.getElementById('ust').addEventListener('change',calc);
+  calc();
+
+  // Checkliste
+  var boxes=[].slice.call(document.querySelectorAll('.chk input'));
+  function upd(){
+    var n=boxes.filter(function(b){return b.checked;}).length;
+    var t=boxes.length;
+    document.getElementById('pN').textContent=n+'/'+t;
+    document.getElementById('pBar').style.width=(n/t*100)+'%';
+    document.getElementById('pT').textContent = n===0
+      ? 'Hak ab, was dein Angebot schon enthält.'
+      : (n===t ? 'Vollständig. Dieses Angebot kann raus.'
+               : 'Es fehlen noch '+(t-n)+' Punkte.');
+  }
+  boxes.forEach(function(b){b.addEventListener('change',upd);});
+  upd();
+})();
+</script>
+</body>
+</html>
