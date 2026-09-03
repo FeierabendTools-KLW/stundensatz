@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://feierabendtools-klw.github.io/stundensatz/sitemap.xml
