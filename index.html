@@ -251,6 +251,325 @@
   <footer class="site">
     <nav>
       <a href="angebot-schreiben.html">Angebot schreiben</a>
+      <a href="preise-erhoehen.html">Preise erhöhen</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+    </nav>
+    <p>Der Rechner ist eine kaufmännische Kalkulationshilfe und ersetzt keine Steuer- oder Rechtsberatung. Die Steuerquote ist eine Schätzung, die du selbst festlegst; deine tatsächliche Belastung hängt von Freibeträgen, Familienstand und Abschreibungen ab.</p>
+  </footer>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Wie berechne ich meinen Stundensatz als Freelancer?",
+     "acceptedAnswer":{"@type":"Answer","text":"Rückwärts: vom gewünschten Nettoeinkommen über Vorsorge und Steuern zum nötigen Jahresumsatz, geteilt durch die tatsächlich abrechenbaren Stunden, plus 15 bis 25 Prozent Puffer."}},
+    {"@type":"Question","name":"Was ist ein realistischer abrechenbarer Anteil?",
+     "acceptedAnswer":{"@type":"Answer","text":"Für Solo-Selbstständige sind 55 bis 70 Prozent realistisch. Über 75 Prozent ist dauerhaft kaum haltbar, weil Akquise, Angebote und Buchhaltung nicht bezahlt werden."}},
+    {"@type":"Question","name":"Wie viel Umsatz brauche ich für 3.000 Euro netto?",
+     "acceptedAnswer":{"@type":"Answer","text":"Bei 750 Euro Vorsorge, 530 Euro Betriebskosten monatlich und 28 Prozent Steuerquote rund 69.000 Euro Jahresumsatz, was einem Mindestsatz von etwa 65 Euro und einem Zielsatz von rund 78 Euro pro Stunde entspricht."}},
+    {"@type":"Question","name":"Was ist der Unterschied zwischen Mindestsatz und Zielsatz?",
+     "acceptedAnswer":{"@type":"Answer","text":"Der Mindestsatz deckt Kosten, Vorsorge, Steuern und Wunschnetto bei perfekter Auslastung. Der Zielsatz enthält zusätzlich den Puffer für Auftragsflauten, Investitionen und Weiterbildung."}}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  "use strict";
+  var eur = new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+  var eur2 = new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2});
+  var num = new Intl.NumberFormat('de-DE',{maximumFractionDigits:0});
+  var ids = ['netto','vorsorge','kosten','steuer','stdTag','billable'];
+
+  function v(id){
+    var n = parseFloat(String(document.getElementById(id).value).replace(',','.'));
+    return isFinite(n) ? n : 0;
+  }
+  function set(id,t){ document.getElementById(id).textContent = t; }
+
+  function calc(){
+    var nettoJahr    = Math.max(0, v('netto')) * 12;
+    var vorsorgeJahr = Math.max(0, v('vorsorge')) * 12;
+    var kostenJahr   = Math.max(0, v('kosten')) * 12;
+    var steuerQuote  = Math.min(80, Math.max(0, v('steuer'))) / 100;
+    var stdTag       = Math.max(0.5, v('stdTag'));
+    var billable     = Math.min(100, Math.max(5, v('billable'))) / 100;
+
+    var gewinn      = (nettoJahr + vorsorgeJahr) / (1 - steuerQuote);
+    var zielUmsatz  = gewinn + kostenJahr;
+    var stundenJahr = Math.max(1, 213 * stdTag * billable);
+    var minSatz     = zielUmsatz / stundenJahr;
+    var zielSatz    = minSatz * 1.2;
+
+    set('rMin', eur2.format(minSatz));
+    set('rZiel', eur2.format(zielSatz));
+    set('kUmsatz', eur.format(zielUmsatz));
+    set('kStunden', num.format(stundenJahr) + ' h');
+    set('kTag', eur.format(zielSatz * stdTag));
+  }
+
+  ids.forEach(function(id){ document.getElementById(id).addEventListener('input', calc); });
+  calc();
+})();
+</script>
+</body>
+</html>
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stundensatz berechnen: kostenloser Rechner für Freelancer und Selbstständige</title>
+<meta name="description" content="Kostenloser Stundensatz-Rechner für Freelancer: Ermittelt aus Zielnetto, Vorsorge, Steuern und Betriebskosten deinen Mindestsatz und deinen Zielsatz. Rechnet offline im Browser, ohne Anmeldung.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://feierabendtools-klw.github.io/stundensatz/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Stundensatz berechnen: kostenloser Rechner für Freelancer">
+<meta property="og:description" content="Was musst du pro Stunde verlangen, damit am Ende wirklich etwas übrig bleibt? Sechs Zahlen, ein ehrliches Ergebnis.">
+<meta property="og:locale" content="de_DE">
+<meta name="twitter:card" content="summary">
+<style>
+  /* Bewusst ohne externe Schriften: Google Fonts uebertraegt beim Laden die
+     IP-Adresse der Besucher in die USA — auf einer deutschen Seite ein
+     vermeidbares Datenschutzrisiko. Systemschriften sehen fast identisch aus. */
+  :root{
+    --bg:#f4f6f5; --surface:#ffffff; --raised:#eef3f1;
+    --ink:#101a17; --muted:#5c6d68; --line:#dde5e2;
+    --accent:#0e7c66; --accent-dark:#0a5c4c; --accent-soft:#e4f2ee;
+    --radius:14px; --shadow:0 1px 2px rgba(16,32,28,.05), 0 10px 28px -16px rgba(16,32,28,.28);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.62 var(--sans);
+    padding:0 18px 60px;-webkit-text-size-adjust:100%}
+  .wrap{max-width:720px;margin:0 auto}
+  .wide{max-width:860px;margin:0 auto}
+
+  header.hero{padding:48px 0 26px;text-align:left}
+  .kicker{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-soft);padding:5px 11px;border-radius:999px;margin-bottom:14px}
+  h1{font-size:clamp(28px,6.4vw,42px);line-height:1.1;letter-spacing:-.03em;margin:0 0 12px;text-wrap:balance}
+  .lede{font-size:18px;color:var(--muted);margin:0;max-width:60ch}
+
+  h2{font-size:clamp(21px,4vw,27px);line-height:1.2;letter-spacing:-.02em;margin:44px 0 10px;text-wrap:balance}
+  h3{font-size:18px;margin:26px 0 6px;letter-spacing:-.01em}
+  p{margin:0 0 14px}
+  section > p:last-child{margin-bottom:0}
+
+  /* ---------- Rechner ---------- */
+  .calc{margin:26px 0 0}
+  .rates{display:grid;gap:12px;margin-bottom:14px}
+  @media(min-width:560px){.rates{grid-template-columns:1fr 1fr}}
+  .rate{border:1px solid var(--line);border-radius:var(--radius);padding:16px;background:var(--surface);box-shadow:var(--shadow)}
+  .rate.main{border-color:var(--accent);background:var(--accent-soft)}
+  .rate .k{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  .rate.main .k{color:var(--accent)}
+  .rate .big{font-size:clamp(28px,7vw,34px);font-weight:700;letter-spacing:-.03em;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .rate .s{font-size:13px;color:var(--muted)}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+  .field{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px dashed var(--line)}
+  .field:last-of-type{border-bottom:0}
+  .field label{flex:1;font-size:15px}
+  .field .h{display:block;color:var(--muted);font-size:12.5px;line-height:1.45;margin-top:2px}
+  .iw{display:flex;align-items:center;gap:6px}
+  .iw span{color:var(--muted);font-size:13px;width:24px}
+  input[type=number]{width:112px;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;
+    color:var(--ink);font:inherit;font-variant-numeric:tabular-nums;text-align:right}
+  input[type=number]:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+  input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  input[type=number]{-moz-appearance:textfield}
+  .out{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line);
+    font-variant-numeric:tabular-nums}
+  .out:last-child{border-bottom:0}
+  .assump{font-size:12.5px;color:var(--muted);margin:12px 0 0}
+
+  /* ---------- CTA ---------- */
+  .cta{background:var(--surface);border:1px solid var(--accent);border-radius:var(--radius);padding:22px;margin:30px 0}
+  .cta.soft{border-color:var(--line);background:var(--raised)}
+  .cta h3{margin:0 0 8px;font-size:20px}
+  .cta p{margin:0 0 14px;color:var(--muted)}
+  .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;
+    padding:12px 20px;border-radius:10px}
+  .btn:hover{background:var(--accent-dark)}
+  .btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+  .btn.ghost:hover{background:var(--accent-soft)}
+  .btnrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .price{font-size:13.5px;color:var(--muted)}
+
+  /* ---------- Inhalte ---------- */
+  ol.steps{margin:0;padding-left:0;list-style:none;counter-reset:s}
+  ol.steps li{counter-increment:s;position:relative;padding-left:38px;margin:0 0 14px}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:8px;
+    background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:700;display:flex;
+    align-items:center;justify-content:center}
+  .tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:4px 14px;box-shadow:var(--shadow)}
+  table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:15px}
+  th,td{text-align:right;padding:10px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+  th:first-child,td:first-child{text-align:left}
+  thead th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
+  tbody tr:last-child td{border-bottom:0}
+  details{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;margin-bottom:10px}
+  details summary{font-weight:600;cursor:pointer;list-style:none}
+  details summary::-webkit-details-marker{display:none}
+  details summary::before{content:"+ ";color:var(--accent);font-weight:700}
+  details[open] summary::before{content:"– "}
+  details p{margin:10px 0 0;color:var(--muted)}
+
+  footer.site{margin-top:52px;border-top:1px solid var(--line);padding-top:18px;font-size:13.5px;color:var(--muted)}
+  footer.site a{color:var(--accent)}
+  footer.site nav{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <span class="kicker">Kostenloser Rechner</span>
+    <h1>Stundensatz berechnen</h1>
+    <p class="lede">Was musst du pro Stunde verlangen, damit am Ende wirklich etwas übrig bleibt? Trag deine sechs Zahlen ein — der Rechner arbeitet direkt in deinem Browser, ohne Anmeldung und ohne dass eine einzige Angabe das Gerät verlässt.</p>
+  </header>
+
+  <!-- ================= RECHNER ================= -->
+  <div class="calc">
+    <div class="rates">
+      <div class="rate">
+        <div class="k">Mindestsatz</div>
+        <div class="big" id="rMin">–</div>
+        <div class="s">Darunter zahlst du drauf.</div>
+      </div>
+      <div class="rate main">
+        <div class="k">Empfohlener Zielsatz</div>
+        <div class="big" id="rZiel">–</div>
+        <div class="s">Mit 20 % Gewinn- und Risikopuffer.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="field"><label for="netto">Gewünschtes Netto pro Monat
+        <span class="h">Was zum Leben auf deinem Privatkonto landen soll.</span></label>
+        <div class="iw"><input type="number" id="netto" value="2800" min="0" step="50"><span>€</span></div></div>
+      <div class="field"><label for="vorsorge">Vorsorge pro Monat
+        <span class="h">Krankenversicherung, Altersvorsorge, Berufsunfähigkeit.</span></label>
+        <div class="iw"><input type="number" id="vorsorge" value="750" min="0" step="25"><span>€</span></div></div>
+      <div class="field"><label for="kosten">Betriebskosten pro Monat
+        <span class="h">Software, Hardware-Rücklage, Büro, Versicherungen, Steuerberatung.</span></label>
+        <div class="iw"><input type="number" id="kosten" value="530" min="0" step="10"><span>€</span></div></div>
+      <div class="field"><label for="steuer">Geschätzte Steuerquote auf den Gewinn</label>
+        <div class="iw"><input type="number" id="steuer" value="28" min="0" max="80" step="1"><span>%</span></div></div>
+      <div class="field"><label for="stdTag">Arbeitsstunden pro Tag</label>
+        <div class="iw"><input type="number" id="stdTag" value="8" min="1" max="16" step="0.5"><span>h</span></div></div>
+      <div class="field"><label for="billable">Abrechenbarer Anteil deiner Arbeitszeit
+        <span class="h">Akquise, Angebote und Buchhaltung zahlt niemand. Realistisch: 55–70 %.</span></label>
+        <div class="iw"><input type="number" id="billable" value="62" min="10" max="100" step="1"><span>%</span></div></div>
+
+      <div style="margin-top:14px">
+        <div class="out"><span>Nötiger Jahresumsatz (netto)</span><span id="kUmsatz">–</span></div>
+        <div class="out"><span>Fakturierbare Stunden pro Jahr</span><span id="kStunden">–</span></div>
+        <div class="out"><span>Tagessatz beim Zielsatz</span><span id="kTag">–</span></div>
+      </div>
+      <p class="assump">Gerechnet mit 213 Arbeitstagen im Jahr: 365 Tage abzüglich Wochenenden, 30 Urlaubstagen, 10 Feiertagen und 8 Krankheitstagen.</p>
+    </div>
+  </div>
+
+  <!-- ================= CTA 1 ================= -->
+  <div class="cta soft">
+    <h3>Rechner zum Behalten</h3>
+    <p>Dieselbe Rechnung als Datei für deinen Rechner — funktioniert auch ohne Internet, etwa wenn du beim Kunden sitzt und ein Angebot durchrechnest.</p>
+    <div class="btnrow">
+      <a class="btn ghost" href="https://kaixd6.gumroad.com/l/stundensatz-check">Kostenlos herunterladen</a>
+      <span class="price">Keine Kosten, keine Zahlungsdaten.</span>
+    </div>
+  </div>
+
+  <!-- ================= INHALT ================= -->
+  <section>
+    <h2>Warum die meisten Freelancer zu günstig arbeiten</h2>
+    <p>Der Fehler passiert fast nie beim Stundensatz selbst. Er passiert eine Zeile vorher: bei der Zahl der Stunden, die man überhaupt verkaufen kann.</p>
+    <p>Ein Angestellter mit 40-Stunden-Woche wird für 160 Stunden im Monat bezahlt — auch für die Team-Meetings, die E-Mails und den Kaffee. Als Selbstständiger bezahlt dir das niemand. Akquise, Angebote schreiben, Rechnungen stellen, Buchhaltung, Weiterbildung: Diese Zeit fällt an, sie ist Teil deiner Arbeit, aber sie taucht auf keiner Rechnung auf.</p>
+    <p>Wer seinen Satz auf 160 Stunden kalkuliert und dann 88 verkauft, arbeitet die Differenz umsonst. Das merkt man nicht im März, sondern im Dezember.</p>
+
+    <h2>So rechnest du rückwärts</h2>
+    <p>Die richtige Reihenfolge beginnt nicht beim Preis, sondern bei dem, was übrig bleiben soll:</p>
+    <ol class="steps">
+      <li><strong>Zielnetto festlegen.</strong> Was soll monatlich auf deinem Privatkonto landen? Mal zwölf.</li>
+      <li><strong>Vorsorge addieren.</strong> Kranken- und Pflegeversicherung, Altersvorsorge, Berufsunfähigkeit — bei Selbstständigen zahlt das niemand zur Hälfte mit.</li>
+      <li><strong>Steuern aufschlagen.</strong> Die Summe geteilt durch (1 minus Steuerquote) ergibt den Gewinn, den du vor Steuern brauchst.</li>
+      <li><strong>Betriebskosten addieren.</strong> Das Ergebnis ist dein nötiger Jahresumsatz.</li>
+      <li><strong>Durch die abrechenbaren Stunden teilen.</strong> Nicht durch alle Arbeitsstunden — nur durch die verkäuflichen.</li>
+      <li><strong>Puffer draufrechnen.</strong> 15 bis 25 Prozent für Auftragsflauten, Investitionen und Rücklagen. Erst diese Zahl ist dein Angebotspreis.</li>
+    </ol>
+
+    <h2>Wie viel Umsatz brauchst du für dein Wunschnetto?</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr>
+          <th>Netto/Monat</th><th>Umsatz/Jahr</th><th>Mindestsatz</th><th>Zielsatz</th><th>Tagessatz</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>2.000 €</td><td>52.193 €</td><td>49,40 €</td><td>59,28 €</td><td>474 €</td></tr>
+          <tr><td>2.500 €</td><td>60.527 €</td><td>57,29 €</td><td>68,75 €</td><td>550 €</td></tr>
+          <tr><td>3.000 €</td><td>68.860 €</td><td>65,18 €</td><td>78,21 €</td><td>626 €</td></tr>
+          <tr><td>3.500 €</td><td>77.193 €</td><td>73,07 €</td><td>87,68 €</td><td>701 €</td></tr>
+          <tr><td>4.000 €</td><td>85.527 €</td><td>80,95 €</td><td>97,15 €</td><td>777 €</td></tr>
+          <tr><td>5.000 €</td><td>102.193 €</td><td>96,73 €</td><td>116,08 €</td><td>929 €</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="assump">Annahmen: 750 € Vorsorge und 530 € Betriebskosten im Monat, 28 % Steuerquote, 1.056 abrechenbare Stunden im Jahr, 8-Stunden-Tag. Die Steuerquote steigt mit dem Gewinn — in den oberen Zeilen liegen die tatsächlichen Werte daher eher höher. Mit dem Rechner oben setzt du deine eigenen Zahlen ein.</p>
+
+    <h2>Häufige Fragen</h2>
+
+    <details open>
+      <summary>Wie berechne ich meinen Stundensatz als Freelancer?</summary>
+      <p>Rückwärts, nicht vorwärts: vom gewünschten Nettoeinkommen über Vorsorge und Steuern zum nötigen Jahresumsatz, und diesen geteilt durch die Stunden, die du tatsächlich abrechnen kannst. Auf das Ergebnis kommen 15 bis 25 Prozent Puffer. Ein Vergleich mit „üblichen" Sätzen aus Foren führt fast immer zu niedrig, weil dort Vorsorge und Leerlauf selten mitgerechnet sind.</p>
+    </details>
+
+    <details>
+      <summary>Was ist ein realistischer abrechenbarer Anteil?</summary>
+      <p>Für Solo-Selbstständige liegen 55 bis 70 Prozent im realistischen Bereich. Wer dauerhaft über 75 Prozent kommt, hat entweder einen sehr langen Rahmenvertrag oder rechnet die eigene Verwaltungszeit nicht mit. Am Anfang der Selbstständigkeit sind eher 50 Prozent realistisch, weil Akquise mehr Zeit frisst.</p>
+    </details>
+
+    <details>
+      <summary>Wie viel Umsatz brauche ich für 3.000 € netto?</summary>
+      <p>Bei 750 € Vorsorge, 530 € Betriebskosten monatlich und 28 Prozent Steuerquote sind das rund 69.000 € Jahresumsatz — und damit ein Mindestsatz von etwa 65 €. Mit Puffer landest du bei rund 78 € pro Stunde oder 626 € pro Tag.</p>
+    </details>
+
+    <details>
+      <summary>Was ist der Unterschied zwischen Mindestsatz und Zielsatz?</summary>
+      <p>Der Mindestsatz deckt genau deine Kosten, deine Vorsorge, deine Steuern und dein Wunschnetto — bei perfekter Auslastung, ohne Rücklage und ohne Investitionen. Er ist die Untergrenze, nicht das Ziel. Der Zielsatz enthält den Puffer für Monate ohne Auftrag, für neue Hardware und für Weiterbildung. Mit diesem Satz kalkulierst du Angebote.</p>
+    </details>
+
+    <details>
+      <summary>Wie rechne ich vom Stundensatz auf einen Tagessatz?</summary>
+      <p>Stundensatz mal Arbeitsstunden pro Tag. Viele geben auf Tagessätze einen kleinen Nachlass, weil ein ganzer gebuchter Tag weniger Umschaltverluste bedeutet — dann sollte der Rabatt aber bewusst gewählt sein und nicht daraus entstehen, dass man den Tagessatz auf eine runde Zahl kürzt.</p>
+    </details>
+  </section>
+
+  <section>
+    <h2>Und dann: den Preis ins Angebot bekommen</h2>
+    <p>Der Stundensatz ist die halbe Arbeit. Die andere Hälfte ist das Dokument, das beim Kunden landet — mit klarem Leistungsumfang, Bindefrist und dem Absatz darüber, was <em>nicht</em> enthalten ist. Genau daran scheitern die meisten Projekte, nicht am Preis.</p>
+    <p><a href="angebot-schreiben.html">Zur Checkliste: Was in ein Angebot gehört</a> — mit Rechner für Rabatt, Umsatzsteuer und Anzahlung.</p>
+  </section>
+
+  <!-- ================= CTA 2 ================= -->
+  <div class="cta">
+    <h3>Mit deinen echten Zahlen rechnen</h3>
+    <p>Die Pro-Version schlüsselt Betriebskosten einzeln auf, lässt Urlaub und Ausfalltage frei einstellen, zeigt wohin jeder Euro deines Satzes fließt, rechnet Projektpreise mit Risikopuffer und Umsatzsteuer und zeigt, was eine Preiserhöhung um 5, 10 oder 20 Prozent konkret bringt. Wie hier: eine Datei, offline, ohne Abo.</p>
+    <div class="btnrow">
+      <a class="btn" href="https://kaixd6.gumroad.com/l/stundensatz-rechner">Pro-Version für 19 €</a>
+      <span class="price">Einmalig, kein Abo.</span>
+    </div>
+  </div>
+
+  <footer class="site">
+    <nav>
+      <a href="angebot-schreiben.html">Angebot schreiben</a>
       <a href="impressum.html">Impressum</a>
       <a href="datenschutz.html">Datenschutz</a>
     </nav>
