@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kunde zahlt nicht: Verzugszinsen berechnen und richtig vorgehen</title>
+<meta name="description" content="Was du verlangen darfst, wenn ein Kunde nicht zahlt: Rechner für Verzugszinsen nach § 288 BGB inklusive 40-Euro-Pauschale, plus die Reihenfolge der Schritte von der Mahnung bis zum Mahnbescheid.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://feierabendtools-klw.github.io/stundensatz/kunde-zahlt-nicht.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kunde zahlt nicht: Verzugszinsen berechnen">
+<meta property="og:description" content="Ab wann jemand in Verzug ist, was du dann verlangen darfst — und die 40 Euro, die fast niemand geltend macht.">
+<meta property="og:locale" content="de_DE">
+<meta name="twitter:card" content="summary">
+<style>
+  :root{
+    --bg:#f4f6f5; --surface:#ffffff; --raised:#eef3f1;
+    --ink:#101a17; --muted:#5c6d68; --line:#dde5e2;
+    --accent:#0e7c66; --accent-dark:#0a5c4c; --accent-soft:#e4f2ee;
+    --radius:14px; --shadow:0 1px 2px rgba(16,32,28,.05), 0 10px 28px -16px rgba(16,32,28,.28);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.62 var(--sans);
+    padding:0 18px 60px;-webkit-text-size-adjust:100%}
+  .wrap{max-width:720px;margin:0 auto}
+  header.hero{padding:48px 0 26px}
+  .kicker{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-soft);padding:5px 11px;border-radius:999px;margin-bottom:14px}
+  h1{font-size:clamp(28px,6.4vw,42px);line-height:1.1;letter-spacing:-.03em;margin:0 0 12px;text-wrap:balance}
+  .lede{font-size:18px;color:var(--muted);margin:0;max-width:60ch}
+  h2{font-size:clamp(21px,4vw,27px);line-height:1.2;letter-spacing:-.02em;margin:44px 0 10px;text-wrap:balance}
+  h3{font-size:18px;margin:26px 0 6px;letter-spacing:-.01em}
+  p{margin:0 0 14px}
+  section > p:last-child{margin-bottom:0}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+  .rates{display:grid;gap:12px;margin-bottom:14px}
+  @media(min-width:560px){.rates{grid-template-columns:1fr 1fr}}
+  .rate{border:1px solid var(--line);border-radius:var(--radius);padding:16px;background:var(--surface);box-shadow:var(--shadow)}
+  .rate.main{border-color:var(--accent);background:var(--accent-soft)}
+  .rate .k{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  .rate.main .k{color:var(--accent)}
+  .rate .big{font-size:clamp(28px,7vw,34px);font-weight:700;letter-spacing:-.03em;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .rate .s{font-size:13px;color:var(--muted)}
+  .field{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px dashed var(--line)}
+  .field:last-of-type{border-bottom:0}
+  .field label{flex:1;font-size:15px}
+  .field .h{display:block;color:var(--muted);font-size:12.5px;line-height:1.45;margin-top:2px}
+  .iw{display:flex;align-items:center;gap:6px}
+  .iw span{color:var(--muted);font-size:13px;width:24px}
+  input[type=number],input[type=date]{width:150px;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;
+    color:var(--ink);font:inherit;font-variant-numeric:tabular-nums;text-align:right}
+  input[type=number]{width:118px}
+  select{padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);font:inherit}
+  input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+  input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  input[type=number]{-moz-appearance:textfield}
+  .out{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line);font-variant-numeric:tabular-nums}
+  .out:last-child{border-bottom:0}
+  .out.total{font-weight:700;font-size:17px}
+  .assump{font-size:12.5px;color:var(--muted);margin:12px 0 0}
+  .cta{background:var(--surface);border:1px solid var(--accent);border-radius:var(--radius);padding:22px;margin:30px 0}
+  .cta.soft{border-color:var(--line);background:var(--raised)}
+  .cta h3{margin:0 0 8px;font-size:20px}
+  .cta p{margin:0 0 14px;color:var(--muted)}
+  .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;padding:12px 20px;border-radius:10px}
+  .btn:hover{background:var(--accent-dark)}
+  .btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+  .btn.ghost:hover{background:var(--accent-soft)}
+  .btnrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .price{font-size:13.5px;color:var(--muted)}
+  ol.steps{margin:0;padding-left:0;list-style:none;counter-reset:s}
+  ol.steps li{counter-increment:s;position:relative;padding-left:38px;margin:0 0 14px}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:8px;
+    background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .quote{border-left:3px solid var(--accent);background:var(--surface);border-radius:0 11px 11px 0;padding:14px 16px;margin:16px 0;font-size:15px;white-space:pre-line}
+  .quote em{color:var(--muted);font-style:normal;display:block;font-size:12.5px;margin-top:10px;white-space:normal}
+  details{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;margin-bottom:10px}
+  details summary{font-weight:600;cursor:pointer;list-style:none}
+  details summary::-webkit-details-marker{display:none}
+  details summary::before{content:"+ ";color:var(--accent);font-weight:700}
+  details[open] summary::before{content:"– "}
+  details p{margin:10px 0 0;color:var(--muted)}
+  .crumb{font-size:13.5px;color:var(--muted);padding-top:22px}
+  .crumb a{color:var(--accent)}
+  footer.site{margin-top:52px;border-top:1px solid var(--line);padding-top:18px;font-size:13.5px;color:var(--muted)}
+  footer.site a{color:var(--accent)}
+  footer.site nav{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="crumb"><a href="index.html">Stundensatz-Rechner</a> &rsaquo; Kunde zahlt nicht</p>
+
+  <header class="hero">
+    <span class="kicker">Kostenloser Rechner</span>
+    <h1>Kunde zahlt nicht</h1>
+    <p class="lede">Wer im Verzug ist, schuldet dir mehr als den Rechnungsbetrag. Zinsen stehen dir per Gesetz zu, bei Geschäftskunden zusätzlich eine Pauschale von 40 Euro — die fast niemand geltend macht.</p>
+  </header>
+
+  <div class="rates">
+    <div class="rate">
+      <div class="k">Verzugstage</div>
+      <div class="big" id="rTage">–</div>
+      <div class="s" id="rSatz">–</div>
+    </div>
+    <div class="rate main">
+      <div class="k">Das darfst du fordern</div>
+      <div class="big" id="rGesamt">–</div>
+      <div class="s">Rechnungsbetrag plus Zinsen und Pauschale.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="field"><label for="betrag">Offener Rechnungsbetrag</label>
+      <div class="iw"><input type="number" id="betrag" value="2400" min="0" step="50"><span>€</span></div></div>
+    <div class="field"><label for="art">Wer schuldet dir das Geld?
+      <span class="h">Bei Firmen und Selbstständigen gelten 9 Prozentpunkte und die 40-Euro-Pauschale, bei Privatkunden 5 Prozentpunkte ohne Pauschale.</span></label>
+      <div class="iw"><select id="art">
+        <option value="b2b">Firma oder Selbstständiger</option>
+        <option value="b2c">Privatperson</option>
+      </select></div></div>
+    <div class="field"><label for="start">Verzug begann am
+      <span class="h">Tag nach der Mahnung, oder 30 Tage nach Rechnungszugang.</span></label>
+      <div class="iw"><input type="date" id="start"></div></div>
+    <div class="field"><label for="ende">Stichtag</label>
+      <div class="iw"><input type="date" id="ende"></div></div>
+    <div class="field"><label for="basis">Basiszinssatz
+      <span class="h">1,52 % seit 01.07.2026. Ändert sich am 1. Januar und 1. Juli — dann hier anpassen.</span></label>
+      <div class="iw"><input type="number" id="basis" value="1.52" min="-5" max="20" step="0.01"><span>%</span></div></div>
+
+    <div style="margin-top:14px">
+      <div class="out"><span>Verzugszinssatz</span><span id="oSatz">–</span></div>
+      <div class="out"><span>Verzugstage</span><span id="oTage">–</span></div>
+      <div class="out"><span>Zinsen</span><span id="oZins">–</span></div>
+      <div class="out"><span>Pauschale nach § 288 Abs. 5 BGB</span><span id="oPausch">–</span></div>
+      <div class="out total"><span>Gesamtforderung</span><span id="oGesamt">–</span></div>
+    </div>
+    <p class="assump">Rechnet ausschließlich in deinem Browser, nichts wird gespeichert oder übertragen. Zinsen taggenau auf Basis von 365 Tagen im Jahr. Kaufmännische Orientierung, keine Rechtsberatung.</p>
+  </div>
+
+  <section>
+    <h2>Ab wann jemand überhaupt im Verzug ist</h2>
+    <p>Eine überfällige Rechnung allein reicht nicht. Verzug tritt erst ein, wenn eine von drei Bedingungen erfüllt ist:</p>
+    <ol class="steps">
+      <li><strong>Du hast gemahnt.</strong> Nach Fälligkeit genügt eine Mahnung, und ab dem Tag danach läuft der Verzug (§ 286 Abs. 1 BGB). Eine Form ist nicht vorgeschrieben, aber du musst den Zugang beweisen können.</li>
+      <li><strong>Es gab ein festes Datum.</strong> Stand im Angebot oder in der Rechnung ein konkreter Zahlungstermin nach dem Kalender, tritt Verzug ohne Mahnung ein (§ 286 Abs. 2 BGB). „Zahlbar bis 15.10." ist ein solches Datum, „zahlbar innerhalb von 14 Tagen" ebenfalls, sobald der Zugang feststeht.</li>
+      <li><strong>Die 30-Tage-Regel.</strong> Spätestens 30 Tage nach Fälligkeit und Zugang der Rechnung ist der Schuldner im Verzug — auch ohne jede Mahnung (§ 286 Abs. 3 BGB). Bei Privatkunden gilt das nur, wenn du sie in der Rechnung ausdrücklich darauf hingewiesen hast.</li>
+    </ol>
+    <p>Der dritte Punkt ist der wichtigste und der unbekannteste: Du musst nicht dreimal mahnen. Diese Vorstellung hält sich hartnäckig, steht aber nirgends im Gesetz.</p>
+
+    <h2>Was du ab Verzug verlangen darfst</h2>
+    <p>Drei Dinge, und alle drei stehen dir zu, ohne dass du sie vereinbaren musstest:</p>
+    <ol class="steps">
+      <li><strong>Verzugszinsen.</strong> Bei Geschäftskunden neun Prozentpunkte über dem Basiszinssatz, bei Privatkunden fünf (§ 288 Abs. 1 und 2 BGB). Beim aktuellen Basiszins von 1,52 Prozent sind das 10,52 beziehungsweise 6,52 Prozent im Jahr.</li>
+      <li><strong>Die 40-Euro-Pauschale.</strong> Ist der Schuldner kein Verbraucher, kommen 40 Euro obendrauf — pro Forderung, unabhängig von der Höhe (§ 288 Abs. 5 BGB). Du musst keinen Schaden nachweisen. Bei einer Rechnung über 300 Euro ist das ein spürbarer Aufschlag, und die meisten lassen ihn liegen.</li>
+      <li><strong>Deine Rechtsverfolgungskosten.</strong> Etwa Anwaltskosten, die durch den Verzug entstanden sind. Die Pauschale wird darauf angerechnet.</li>
+    </ol>
+    <p>Was du <em>nicht</em> einfach berechnen darfst, sind Fantasie-Mahngebühren. Fünf Euro „Bearbeitungsgebühr" pro Mahnung sind ohne Grundlage. Ersetzt wird der tatsächliche Aufwand, und der besteht bei einer E-Mail aus so gut wie nichts. Die 40-Euro-Pauschale ist der gesetzlich vorgesehene Ersatz dafür — und sie ist deutlich mehr wert.</p>
+
+    <h2>Die Reihenfolge, die funktioniert</h2>
+    <ol class="steps">
+      <li><strong>Freundlich nachfragen.</strong> In den meisten Fällen ist die Rechnung untergegangen. Ein kurzer Zweizeiler löst das, ohne die Beziehung zu belasten.</li>
+      <li><strong>Mahnung mit Frist.</strong> Konkretes Datum, keine Floskel. „Bitte bis zum 20.10." ist eine Frist, „zeitnah" nicht.</li>
+      <li><strong>Letzte Mahnung mit Zinsen und Pauschale.</strong> Jetzt beziffert: Hauptforderung, Zinsen bis heute, 40 Euro Pauschale. Die konkrete Zahl wirkt stärker als jede Drohung.</li>
+      <li><strong>Gerichtliches Mahnverfahren.</strong> Online über das Mahnportal der Justiz, ohne Anwalt möglich. Die Gebühr richtet sich nach dem Streitwert, beginnt im niedrigen zweistelligen Bereich und trägt am Ende der Schuldner. Widerspricht er nicht, bekommst du einen Vollstreckungsbescheid.</li>
+    </ol>
+
+    <div class="quote">Sehr geehrte Frau Meyer,
+
+meine Rechnung 2026-114 vom 12. August über 2.400,00 Euro ist bis heute nicht ausgeglichen. Die Zahlungsfrist ist am 11. September abgelaufen.
+
+Ich fordere Sie auf, den Betrag bis zum 20. Oktober 2026 zu überweisen. Ab Verzugseintritt berechne ich die gesetzlichen Verzugszinsen sowie die Pauschale nach § 288 Abs. 5 BGB in Höhe von 40,00 Euro.
+
+Mit freundlichen Grüßen
+<em>Sachlich, mit Rechnungsnummer, konkretem Datum und beziffertem Anspruch. Kein „leider", keine Drohung mit dem Anwalt. Die Nennung der Paragrafen zeigt, dass du weißt, wovon du sprichst.</em></div>
+
+    <h2>Der beste Schutz liegt vor dem Auftrag</h2>
+    <p>Die meisten Zahlungsprobleme entstehen nicht aus bösem Willen, sondern aus Unklarheit: Der Kunde findet die Leistung nicht so wie erwartet, hält etwas für inbegriffen, was es nicht war, und zahlt deshalb erst einmal nicht.</p>
+    <p>Zwei Dinge verhindern das zuverlässiger als jede Mahnung: ein Angebot, in dem steht, was <em>nicht</em> enthalten ist, und eine Anzahlung bei größeren Projekten. Wie beides aussieht, steht auf der <a href="angebot-schreiben.html">Seite zum Angebot schreiben</a>.</p>
+
+    <h2>Häufige Fragen</h2>
+
+    <details open>
+      <summary>Wie viele Mahnungen muss ich schicken?</summary>
+      <p>Keine einzige, wenn die Voraussetzungen ohnehin vorliegen. Nach § 286 Abs. 3 BGB tritt Verzug spätestens 30 Tage nach Fälligkeit und Rechnungszugang ein. Die verbreitete Regel „drei Mahnungen" ist kein Gesetz, sondern Gewohnheit. In der Praxis ist eine freundliche Erinnerung und danach eine bezifferte Mahnung meist der beste Weg.</p>
+    </details>
+
+    <details>
+      <summary>Wie hoch sind die Verzugszinsen aktuell?</summary>
+      <p>Der Basiszinssatz liegt seit dem 1. Juli 2026 bei 1,52 Prozent. Damit betragen die Verzugszinsen 10,52 Prozent bei Geschäftskunden (9 Prozentpunkte darüber) und 6,52 Prozent bei Privatkunden (5 Prozentpunkte darüber). Der Basiszinssatz wird halbjährlich neu festgesetzt, jeweils zum 1. Januar und 1. Juli.</p>
+    </details>
+
+    <details>
+      <summary>Bekomme ich die 40 Euro auch bei kleinen Rechnungen?</summary>
+      <p>Ja. Die Pauschale nach § 288 Abs. 5 BGB ist unabhängig von der Höhe der Forderung und fällt pro verspäteter Entgeltforderung an. Voraussetzung ist nur, dass der Schuldner kein Verbraucher ist. Bei mehreren offenen Rechnungen desselben Kunden fällt sie grundsätzlich mehrfach an.</p>
+    </details>
+
+    <details>
+      <summary>Was kostet das gerichtliche Mahnverfahren?</summary>
+      <p>Die Gerichtsgebühr hängt vom Streitwert ab und liegt bei kleineren Forderungen im niedrigen zweistelligen Bereich. Du legst sie aus und kannst sie dem Schuldner in Rechnung stellen; bei berechtigter Forderung trägt er sie am Ende. Der Antrag läuft online über das Mahnportal der Justiz und ist ohne Anwalt möglich.</p>
+    </details>
+
+    <details>
+      <summary>Wann verjährt meine Forderung?</summary>
+      <p>Die regelmäßige Verjährungsfrist beträgt drei Jahre und beginnt am Ende des Jahres, in dem die Forderung entstanden ist. Eine Rechnung aus 2026 verjährt also grundsätzlich Ende 2029. Eine Mahnung hemmt die Verjährung nicht — ein Mahnbescheid schon. Wer zu lange wartet, verliert den Anspruch.</p>
+    </details>
+
+    <details>
+      <summary>Soll ich weiterarbeiten, solange nicht gezahlt wurde?</summary>
+      <p>Bei laufenden Projekten kannst du deine Leistung grundsätzlich zurückhalten, wenn der Kunde mit einer fälligen Zahlung im Rückstand ist. Sinnvoller ist es, das vorher zu regeln: Teilzahlungen nach Projektabschnitten oder eine Anzahlung vor Beginn verhindern, dass ein einzelner Kunde monatelang unbezahlte Arbeit anhäuft.</p>
+    </details>
+  </section>
+
+  <div class="cta">
+    <h3>Streit vermeiden statt Streit gewinnen</h3>
+    <p>Der Angebots-Generator baut Angebote mit Positionen, Anzahlung, Zahlungsfrist und dem Block „Nicht enthalten" — den Punkten, an denen Zahlungsstreit meistens entsteht. Der Stundensatz-Rechner sagt dir vorher, was der Auftrag überhaupt kosten muss. Eine Datei, offline, ohne Abo.</p>
+    <div class="btnrow">
+      <a class="btn" href="https://kaixd6.gumroad.com/l/freelancer-paket">Freelancer-Paket, 34 €</a>
+      <a class="btn ghost" href="https://kaixd6.gumroad.com/l/angebots-generator">Nur Angebots-Generator, 24 €</a>
+    </div>
+  </div>
+
+  <footer class="site">
+    <nav>
+      <a href="index.html">Stundensatz-Rechner</a>
+      <a href="angebot-schreiben.html">Angebot schreiben</a>
+      <a href="preise-erhoehen.html">Preise erhöhen</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+    </nav>
+    <p>Diese Seite gibt allgemeine Hinweise zur Rechtslage in Deutschland und ersetzt keine Rechtsberatung. Die genannten Vorschriften sind § 286 und § 288 BGB; der Basiszinssatz wird halbjährlich von der Deutschen Bundesbank festgesetzt. Für deinen konkreten Fall — besonders bei bestrittenen Forderungen, Verträgen mit abweichenden Regelungen oder Auslandsbezug — ist anwaltlicher Rat zuständig.</p>
+  </footer>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Wie viele Mahnungen muss ich schicken, wenn ein Kunde nicht zahlt?","acceptedAnswer":{"@type":"Answer","text":"Keine einzige, wenn die Voraussetzungen ohnehin vorliegen. Nach Paragraf 286 Absatz 3 BGB tritt Verzug spaetestens 30 Tage nach Faelligkeit und Rechnungszugang ein."}},
+    {"@type":"Question","name":"Wie hoch sind die Verzugszinsen aktuell?","acceptedAnswer":{"@type":"Answer","text":"Der Basiszinssatz liegt seit dem 1. Juli 2026 bei 1,52 Prozent. Damit betragen die Verzugszinsen 10,52 Prozent bei Geschaeftskunden und 6,52 Prozent bei Privatkunden."}},
+    {"@type":"Question","name":"Bekomme ich die 40-Euro-Pauschale auch bei kleinen Rechnungen?","acceptedAnswer":{"@type":"Answer","text":"Ja. Die Pauschale nach Paragraf 288 Absatz 5 BGB ist unabhaengig von der Hoehe der Forderung. Voraussetzung ist nur, dass der Schuldner kein Verbraucher ist."}},
+    {"@type":"Question","name":"Wann verjaehrt eine offene Rechnung?","acceptedAnswer":{"@type":"Answer","text":"Die regelmaessige Verjaehrungsfrist betraegt drei Jahre und beginnt am Ende des Jahres, in dem die Forderung entstanden ist."}}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var MS = 86400000;
+  function el(id){return document.getElementById(id);}
+  function v(id){var n=parseFloat(el(id).value);return isFinite(n)?n:0;}
+  function eur(n){return n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';}
+  function pct(n){return n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' %';}
+  function set(id,t){el(id).textContent=t;}
+  function iso(d){return d.toISOString().slice(0,10);}
+
+  var heute = new Date();
+  var start = new Date(heute.getTime() - 45*MS);
+  el('ende').value = iso(heute);
+  el('start').value = iso(start);
+
+  function calc(){
+    var betrag = Math.max(0, v('betrag'));
+    var basis  = v('basis');
+    var b2b    = el('art').value === 'b2b';
+    var satz   = basis + (b2b ? 9 : 5);
+
+    var d1 = new Date(el('start').value);
+    var d2 = new Date(el('ende').value);
+    var tage = 0;
+    if(!isNaN(d1) && !isNaN(d2)){
+      tage = Math.round((d2 - d1) / MS);
+      if(tage < 0) tage = 0;
+    }
+
+    var zins    = betrag * (satz/100) * (tage/365);
+    var pausch  = b2b ? 40 : 0;
+    var gesamt  = betrag + zins + pausch;
+
+    set('rTage', tage.toLocaleString('de-DE') + (tage === 1 ? ' Tag' : ' Tage'));
+    set('rSatz', 'Verzugszins ' + pct(satz) + (b2b ? ' · Geschäftskunde' : ' · Privatkunde'));
+    set('rGesamt', eur(gesamt));
+
+    set('oSatz', pct(satz) + '  (' + (b2b ? '9' : '5') + ' Punkte über Basiszins)');
+    set('oTage', tage.toLocaleString('de-DE'));
+    set('oZins', eur(zins));
+    set('oPausch', pausch > 0 ? eur(pausch) : 'entfällt bei Privatkunden');
+    set('oGesamt', eur(gesamt));
+  }
+
+  ['betrag','basis','start','ende'].forEach(function(id){
+    el(id).addEventListener('input', calc);
+    el(id).addEventListener('change', calc);
+  });
+  el('art').addEventListener('change', calc);
+  calc();
+})();
+</script>
+</body>
+</html>
