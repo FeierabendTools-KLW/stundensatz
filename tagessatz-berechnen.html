@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tagessatz berechnen: vom Stundensatz zum Tages-, Halbtages- und Reisesatz</title>
+<meta name="description" content="Wie du aus deinem Stundensatz einen belastbaren Tagessatz machst — inklusive Halbtagessatz, Reisetag und Staffelpreis für mehrtägige Buchungen. Kostenloser Rechner im Browser.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://feierabendtools-klw.github.io/stundensatz/tagessatz-berechnen.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tagessatz berechnen">
+<meta property="og:description" content="Stundensatz mal acht ist der häufigste Fehler. Was ein Tagessatz wirklich abdecken muss.">
+<meta property="og:locale" content="de_DE">
+<meta name="twitter:card" content="summary">
+<style>
+  :root{--bg:#f4f6f5;--surface:#fff;--raised:#eef3f1;--ink:#101a17;--muted:#5c6d68;--line:#dde5e2;
+    --accent:#0e7c66;--accent-dark:#0a5c4c;--accent-soft:#e4f2ee;--radius:14px;
+    --shadow:0 1px 2px rgba(16,32,28,.05),0 10px 28px -16px rgba(16,32,28,.28);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.62 var(--sans);padding:0 18px 60px;-webkit-text-size-adjust:100%}
+  .wrap{max-width:720px;margin:0 auto}
+  header.hero{padding:48px 0 26px}
+  .kicker{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-soft);padding:5px 11px;border-radius:999px;margin-bottom:14px}
+  h1{font-size:clamp(28px,6.4vw,42px);line-height:1.1;letter-spacing:-.03em;margin:0 0 12px;text-wrap:balance}
+  .lede{font-size:18px;color:var(--muted);margin:0;max-width:60ch}
+  h2{font-size:clamp(21px,4vw,27px);line-height:1.2;letter-spacing:-.02em;margin:44px 0 10px;text-wrap:balance}
+  p{margin:0 0 14px}
+  section > p:last-child{margin-bottom:0}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+  .rates{display:grid;gap:12px;margin-bottom:14px}
+  @media(min-width:560px){.rates{grid-template-columns:1fr 1fr}}
+  .rate{border:1px solid var(--line);border-radius:var(--radius);padding:16px;background:var(--surface);box-shadow:var(--shadow)}
+  .rate.main{border-color:var(--accent);background:var(--accent-soft)}
+  .rate .k{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  .rate.main .k{color:var(--accent)}
+  .rate .big{font-size:clamp(28px,7vw,34px);font-weight:700;letter-spacing:-.03em;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .rate .s{font-size:13px;color:var(--muted)}
+  .field{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px dashed var(--line)}
+  .field:last-of-type{border-bottom:0}
+  .field label{flex:1;font-size:15px}
+  .field .h{display:block;color:var(--muted);font-size:12.5px;line-height:1.45;margin-top:2px}
+  .iw{display:flex;align-items:center;gap:6px}
+  .iw span{color:var(--muted);font-size:13px;width:24px}
+  input[type=number]{width:112px;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;
+    color:var(--ink);font:inherit;font-variant-numeric:tabular-nums;text-align:right}
+  input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+  input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  input[type=number]{-moz-appearance:textfield}
+  .out{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line);font-variant-numeric:tabular-nums}
+  .out:last-child{border-bottom:0}
+  .out.total{font-weight:700;font-size:17px}
+  .assump{font-size:12.5px;color:var(--muted);margin:12px 0 0}
+  .cta{background:var(--surface);border:1px solid var(--accent);border-radius:var(--radius);padding:22px;margin:30px 0}
+  .cta h3{margin:0 0 8px;font-size:20px}
+  .cta p{margin:0 0 14px;color:var(--muted)}
+  .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;padding:12px 20px;border-radius:10px}
+  .btn:hover{background:var(--accent-dark)}
+  .btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+  .btnrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  ol.steps{margin:0;padding-left:0;list-style:none;counter-reset:s}
+  ol.steps li{counter-increment:s;position:relative;padding-left:38px;margin:0 0 14px}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:8px;
+    background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:4px 14px;box-shadow:var(--shadow)}
+  table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:15px}
+  th,td{text-align:right;padding:10px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+  th:first-child,td:first-child{text-align:left}
+  thead th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
+  tbody tr:last-child td{border-bottom:0}
+  details{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;margin-bottom:10px}
+  details summary{font-weight:600;cursor:pointer;list-style:none}
+  details summary::-webkit-details-marker{display:none}
+  details summary::before{content:"+ ";color:var(--accent);font-weight:700}
+  details[open] summary::before{content:"– "}
+  details p{margin:10px 0 0;color:var(--muted)}
+  .crumb{font-size:13.5px;color:var(--muted);padding-top:22px}
+  .crumb a{color:var(--accent)}
+  footer.site{margin-top:52px;border-top:1px solid var(--line);padding-top:18px;font-size:13.5px;color:var(--muted)}
+  footer.site a{color:var(--accent)}
+  footer.site nav{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="crumb"><a href="index.html">Stundensatz-Rechner</a> &rsaquo; Tagessatz berechnen</p>
+
+  <header class="hero">
+    <span class="kicker">Kostenloser Rechner</span>
+    <h1>Tagessatz berechnen</h1>
+    <p class="lede">Stundensatz mal acht — so entsteht der häufigste Tagessatz in Deutschland. Und der häufigste Fehler: Ein gebuchter Tag kostet dich mehr als acht Stunden.</p>
+  </header>
+
+  <div class="rates">
+    <div class="rate main">
+      <div class="k">Tagessatz</div>
+      <div class="big" id="rTag">–</div>
+      <div class="s">Ein voller Arbeitstag beim Kunden.</div>
+    </div>
+    <div class="rate">
+      <div class="k">Woche (5 Tage)</div>
+      <div class="big" id="rWoche">–</div>
+      <div class="s" id="rWocheS">Mit Staffelrabatt.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="field"><label for="satz">Dein Zielstundensatz
+      <span class="h">Der Satz, mit dem du kalkulierst — nicht der Mindestsatz.</span></label>
+      <div class="iw"><input type="number" id="satz" value="60" min="1" step="1"><span>€</span></div></div>
+    <div class="field"><label for="std">Arbeitsstunden pro Tag</label>
+      <div class="iw"><input type="number" id="std" value="8" min="1" max="16" step="0.5"><span>h</span></div></div>
+    <div class="field"><label for="halb">Halbtagessatz
+      <span class="h">Anteil vom Tagessatz. 50 % ist zu wenig: Ein halber Tag beim Kunden frisst oft den ganzen.</span></label>
+      <div class="iw"><input type="number" id="halb" value="60" min="30" max="100" step="5"><span>%</span></div></div>
+    <div class="field"><label for="reise">Reisetag
+      <span class="h">Anteil vom Tagessatz für reine Anfahrtstage.</span></label>
+      <div class="iw"><input type="number" id="reise" value="50" min="0" max="100" step="5"><span>%</span></div></div>
+    <div class="field"><label for="rabatt">Rabatt ab 5 Tagen</label>
+      <div class="iw"><input type="number" id="rabatt" value="10" min="0" max="40" step="1"><span>%</span></div></div>
+
+    <div style="margin-top:14px">
+      <div class="out total"><span>Tagessatz</span><span id="oTag">–</span></div>
+      <div class="out"><span>Halbtagessatz</span><span id="oHalb">–</span></div>
+      <div class="out"><span>Reisetag</span><span id="oReise">–</span></div>
+      <div class="out"><span>5 Tage ohne Rabatt</span><span id="oWoche0">–</span></div>
+      <div class="out"><span>5 Tage mit Rabatt</span><span id="oWoche">–</span></div>
+      <div class="out"><span>Effektiver Stundensatz in der Woche</span><span id="oEff">–</span></div>
+    </div>
+    <p class="assump">Rechnet ausschließlich in deinem Browser. Keine Eingabe wird gespeichert oder übertragen.</p>
+  </div>
+
+  <section>
+    <h2>Warum Stundensatz mal acht zu wenig ist</h2>
+    <p>Ein gebuchter Tag ist nicht dasselbe wie acht abgerechnete Stunden. Was zusätzlich anfällt und in keiner Zeiterfassung auftaucht:</p>
+    <ol class="steps">
+      <li><strong>Der Tag ist blockiert.</strong> Du kannst an diesem Tag nichts anderes annehmen — auch nicht die zwei Stunden, die nach dem Termin theoretisch übrig wären. Ein halber Tag beim Kunden kostet dich faktisch einen ganzen.</li>
+      <li><strong>Umschaltzeit.</strong> Vorbereitung, Anfahrt, Ankommen, Nachbereitung. Das sind selten unter 60 Minuten, und niemand schreibt sie auf die Rechnung.</li>
+      <li><strong>Der Kunde kauft Verfügbarkeit.</strong> Wer einen Tag bucht, will, dass du da bist — auch wenn zwischendurch eine Stunde nichts zu tun ist. Diese Bereitschaft ist Teil der Leistung.</li>
+    </ol>
+    <p>Deshalb ist ein Tagessatz von Stundensatz mal acht die Untergrenze, nicht der faire Preis. Viele rechnen bewusst mit 8,5 oder 9 Stunden.</p>
+
+    <h2>Halbtags, Reisetag, Staffel</h2>
+    <p>Drei Sätze, die in fast jedem Angebot fehlen und regelmäßig teuer werden:</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Position</th><th>Üblicher Anteil</th><th>Bei 480 € Tagessatz</th></tr></thead>
+        <tbody>
+          <tr><td>Voller Tag</td><td>100 %</td><td>480 €</td></tr>
+          <tr><td>Halber Tag</td><td>60 %</td><td>288 €</td></tr>
+          <tr><td>Reisetag</td><td>50 %</td><td>240 €</td></tr>
+          <tr><td>Woche, 5 Tage</td><td>−10 %</td><td>2.160 €</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="assump">Beispiel: 60 € Stundensatz, 8 Stunden am Tag.</p>
+    <p><strong>Der Halbtagessatz gehört nicht auf 50 Prozent.</strong> Wer einen halben Tag bucht, blockiert in der Praxis den ganzen — Anfahrt und Umschaltzeit fallen einmal komplett an. 60 Prozent bilden das ab und werden fast nie hinterfragt.</p>
+    <p><strong>Der Reisetag ist keine Großzügigkeit.</strong> Ein Tag im Zug ist ein Tag, an dem du nichts anderes verkaufen kannst. 50 Prozent sind üblich, bei kurzen Strecken auch weniger — aber null ist falsch.</p>
+    <p><strong>Der Staffelrabatt ist verhandelbar, das Übrige nicht.</strong> Fünf zusammenhängende Tage sparen dir Akquise, Umschaltzeit und Verwaltung. 10 Prozent weiterzugeben ist ehrlich kalkuliert. Mehr als 20 Prozent bedeutet meist, dass der Tagessatz zu hoch angesetzt war.</p>
+
+    <h2>Wann ein Tagessatz besser ist als ein Stundensatz</h2>
+    <p>Der Tagessatz lohnt sich, wenn deine Anwesenheit das Produkt ist: Workshops, Vor-Ort-Einsätze, Schulungen, Beratungstage. Er macht das Angebot einfacher und verhindert Diskussionen über einzelne Stunden.</p>
+    <p>Beim Stundensatz bleibt es, wenn die Arbeit verteilt anfällt — kleine Änderungen, laufende Betreuung, Aufgaben zwischendurch. Ein Tagessatz wäre dort für beide Seiten unehrlich.</p>
+    <p>Beides gilt: Der Tagessatz entsteht aus dem Stundensatz. Wer den nicht kennt, rät. Wie du ihn rückwärts aus deinem gewünschten Nettoeinkommen berechnest, steht auf der <a href="index.html">Seite zum Stundensatz</a>.</p>
+
+    <h2>Häufige Fragen</h2>
+
+    <details open>
+      <summary>Wie berechne ich meinen Tagessatz?</summary>
+      <p>Zielstundensatz mal Arbeitsstunden pro Tag. Bei 60 Euro und 8 Stunden sind das 480 Euro. Wer die Umschaltzeit einpreisen will, rechnet mit 8,5 oder 9 Stunden statt 8. Die Untergrenze ergibt sich aus dem Mindeststundensatz, der Kosten, Vorsorge und Steuern deckt.</p>
+    </details>
+
+    <details>
+      <summary>Wie hoch sollte der Halbtagessatz sein?</summary>
+      <p>Rund 60 Prozent des Tagessatzes, nicht 50. Ein halber Tag beim Kunden blockiert durch Anfahrt und Umschaltzeit meist den ganzen Tag. Wer exakt die Hälfte nimmt, subventioniert kurze Termine.</p>
+    </details>
+
+    <details>
+      <summary>Berechnet man Reisetage?</summary>
+      <p>Ja, üblicherweise mit 50 Prozent des Tagessatzes, zuzüglich der tatsächlichen Reisekosten. Ein Reisetag ist ein Tag, an dem du nichts anderes verkaufen kannst. Wichtig ist, das vorher im Angebot zu regeln — nachträglich wirkt es wie eine Nachforderung.</p>
+    </details>
+
+    <details>
+      <summary>Wie viel Rabatt bei mehrtägigen Buchungen?</summary>
+      <p>10 Prozent ab einer vollen Woche sind üblich und ehrlich kalkuliert, weil Akquise und Umschaltzeit entfallen. Deutlich mehr als 20 Prozent ist ein Warnzeichen: Dann war entweder der Tagessatz zu hoch oder der Rabatt ist reine Verhandlungsmasse.</p>
+    </details>
+  </section>
+
+  <div class="cta">
+    <h3>Deinen eigenen Satz durchrechnen</h3>
+    <p>Die Pro-Version rechnet vom Wunschnetto rückwärts zu Mindest- und Zielsatz, zeigt den passenden Tagessatz, schlüsselt Betriebskosten einzeln auf und rechnet Projektpreise mit Risikopuffer. Eine Datei, offline, ohne Abo.</p>
+    <div class="btnrow">
+      <a class="btn" href="https://kaixd6.gumroad.com/l/stundensatz-rechner">Pro-Version für 19 €</a>
+      <a class="btn ghost" href="https://kaixd6.gumroad.com/l/freelancer-paket">Mit Angebots-Generator, 34 €</a>
+    </div>
+  </div>
+
+  <footer class="site">
+    <nav>
+      <a href="index.html">Stundensatz-Rechner</a>
+      <a href="angebot-schreiben.html">Angebot schreiben</a>
+      <a href="preise-erhoehen.html">Preise erhöhen</a>
+      <a href="kunde-zahlt-nicht.html">Kunde zahlt nicht</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+    </nav>
+    <p>Die genannten Anteile für Halbtages- und Reisesätze sind Branchenüblichkeiten, keine Vorschriften. Diese Seite ist eine kaufmännische Kalkulationshilfe und ersetzt keine Steuer- oder Rechtsberatung.</p>
+  </footer>
+</div>
+
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org","@type":"FAQPage",
+ "mainEntity":[
+  {"@type":"Question","name":"Wie berechne ich meinen Tagessatz?","acceptedAnswer":{"@type":"Answer","text":"Zielstundensatz mal Arbeitsstunden pro Tag. Bei 60 Euro und 8 Stunden sind das 480 Euro. Wer die Umschaltzeit einpreisen will, rechnet mit 8,5 oder 9 Stunden statt 8."}},
+  {"@type":"Question","name":"Wie hoch sollte der Halbtagessatz sein?","acceptedAnswer":{"@type":"Answer","text":"Rund 60 Prozent des Tagessatzes, nicht 50. Ein halber Tag beim Kunden blockiert durch Anfahrt und Umschaltzeit meist den ganzen Tag."}},
+  {"@type":"Question","name":"Berechnet man Reisetage?","acceptedAnswer":{"@type":"Answer","text":"Ja, ueblicherweise mit 50 Prozent des Tagessatzes, zuzueglich der tatsaechlichen Reisekosten."}},
+  {"@type":"Question","name":"Wie viel Rabatt bei mehrtaegigen Buchungen?","acceptedAnswer":{"@type":"Answer","text":"10 Prozent ab einer vollen Woche sind ueblich. Deutlich mehr als 20 Prozent deutet darauf hin, dass der Tagessatz zu hoch angesetzt war."}}
+ ]
+}
+</script>
+
+<script>
+(function(){
+  function el(id){return document.getElementById(id);}
+  function v(id){var n=parseFloat(el(id).value);return isFinite(n)?n:0;}
+  function eur(n){return n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';}
+  function set(id,t){el(id).textContent=t;}
+  function calc(){
+    var satz=Math.max(0,v('satz')), std=Math.max(0,v('std'));
+    var tag=satz*std;
+    var halb=tag*Math.max(0,v('halb'))/100;
+    var reise=tag*Math.max(0,v('reise'))/100;
+    var w0=tag*5;
+    var rab=Math.min(100,Math.max(0,v('rabatt')))/100;
+    var w=w0*(1-rab);
+    var eff=std>0 ? w/(5*std) : 0;
+    set('rTag',eur(tag)); set('oTag',eur(tag));
+    set('rWoche',eur(w));
+    set('rWocheS', rab>0 ? 'Mit '+(rab*100).toLocaleString('de-DE')+' % Staffelrabatt.' : 'Ohne Rabatt.');
+    set('oHalb',eur(halb)); set('oReise',eur(reise));
+    set('oWoche0',eur(w0)); set('oWoche',eur(w));
+    set('oEff',eur(eff));
+  }
+  ['satz','std','halb','reise','rabatt'].forEach(function(id){
+    el(id).addEventListener('input',calc); el(id).addEventListener('change',calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>
